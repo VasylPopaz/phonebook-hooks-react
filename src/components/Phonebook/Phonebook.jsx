@@ -1,51 +1,51 @@
-import React, { Component } from 'react';
-import { nanoid } from 'nanoid';
+import { useState } from 'react';
 import { Form, FormInput, FormLabel } from './Phonebook.styled';
 import { Button } from 'components/Button.styled';
+import { nanoid } from 'nanoid';
 
-export class Phonebook extends Component {
-  state = {
-    name: '',
-    number: '',
+export default function Phonebook({ onSubmit }) {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const handleChange = event => {
+    const { name, value } = event.target;
+    const obj = {
+      name: () => setName(value),
+      number: () => setNumber(value),
+    };
+    return obj[name]();
   };
 
-  handleChange = event => {
-    const { name, value } = event.currentTarget;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
-    this.props.onSubmit({ id: nanoid(), ...this.state });
-    this.setState({ name: '', number: '' });
+    onSubmit({ id: nanoid(), name, number });
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormLabel>
-          Name
-          <FormInput
-            type="text"
-            name="name"
-            value={name}
-            onChange={this.handleChange}
-            required
-          />
-        </FormLabel>
-        <FormLabel>
-          Number
-          <FormInput
-            type="tel"
-            name="number"
-            value={number}
-            onChange={this.handleChange}
-            required
-          />
-        </FormLabel>
-        <Button type="submit">Add contact</Button>
-      </Form>
-    );
-  }
+  return (
+    <Form onSubmit={handleSubmit}>
+      <FormLabel>
+        Name
+        <FormInput
+          type="text"
+          name="name"
+          value={name}
+          onChange={handleChange}
+          required
+        />
+      </FormLabel>
+      <FormLabel>
+        Number
+        <FormInput
+          type="tel"
+          name="number"
+          value={number}
+          onChange={handleChange}
+          required
+        />
+      </FormLabel>
+      <Button type="submit">Add contact</Button>
+    </Form>
+  );
 }
