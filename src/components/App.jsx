@@ -1,21 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { SectionContainer } from './Section/Section.styled';
-import { Section, Filter, Contacts } from 'components';
-import Phonebook from './Phonebook/Phonebook';
-import { loadFromLS, saveToLS } from 'helpers/storage';
+import { Section, Filter, Contacts, Phonebook } from 'components';
+import { useLocalStorage } from 'hooks/useLocalStorage';
 
-export default function App() {
-  const [contacts, setContacts] = useState([]);
+export function App() {
+  const [contacts, setContacts] = useLocalStorage('contacts', []);
   const [filter, setFilter] = useState('');
-
-  useEffect(() => {
-    const downloadedContacts = loadFromLS('contacts');
-    if (downloadedContacts) setContacts(downloadedContacts);
-  }, []);
-
-  useEffect(() => {
-    saveToLS('contacts', contacts);
-  }, [contacts]);
 
   const handleFormSubmit = data => {
     !contacts.find(elem => elem.name.toLowerCase() === data.name.toLowerCase())

@@ -3,7 +3,7 @@ import { Form, FormInput, FormLabel } from './Phonebook.styled';
 import { Button } from 'components/Button.styled';
 import { nanoid } from 'nanoid';
 
-export default function Phonebook({ onSubmit }) {
+export function Phonebook({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
